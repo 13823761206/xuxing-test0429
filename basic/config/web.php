@@ -12,6 +12,7 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'defaultRoute' => 'supplier',
+
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -39,9 +40,20 @@ $config = [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => [ 'info'],
+                    'categories'=>['yii\db\Command*'],
+                    'logVars' => [],
+                    'logFile'=>'@runtime/logs/sql_'.date('Y_m_d').'.log',
                 ],
-            ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => [ 'info'],
+                    'logVars' => [],
+                    'categories'=>['debug'],
+                    'logFile'=>'@runtime/logs/debug_'.date('Y_m_d').'.log',
+                ],
+
+                ]
         ],
         'db' => $db,
         /*
