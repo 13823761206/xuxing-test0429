@@ -15,7 +15,7 @@ class Supplier extends ActiveRecord
     public function rules()
     {
         $rules = [
-   
+
             ['id','string','length' =>[1,100]],
             ['name','string','length' =>[1,50]],
             ['code','string','length' =>[1,3]],
