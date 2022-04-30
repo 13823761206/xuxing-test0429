@@ -17,10 +17,7 @@ rewrite ^/supplier\/([\d\D]+)$     /index.php?r=supplier/$1;
 ###2  项目整备
 ```
 cd basic 
-composer require vlucas/phpdotenv
-composer require robmorgan/phinx
-composer require phpoffice/phpspreadsheet
-
+composer update
 #配置 .env 文件。（设置好数据库）
 
 #初始化表及mock数据.
