@@ -38,7 +38,7 @@ class SupplierController extends Controller
 
         $record = $searchModel->getSearchRecord($params);
 
-        $fileName = "supplierExportAllPage.csv";
+        $fileName = "supplierExportAllPage".date("YmdHis").".csv";
         $this->exportCsv($record, $fileName);
         exit();
     }
@@ -57,7 +57,7 @@ class SupplierController extends Controller
 
         $sql = "select * from ".(new Supplier)::tableName()." where id in ($ids) ";
         $records =  (new Supplier)::findBySql($sql)->all();
-        $fileName = "supplierExportOnePage.csv";
+        $fileName = "supplierExportOnePage".date("YmdHis").".csv";
         $this->exportCsv($records, $fileName);
         exit();
     }

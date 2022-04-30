@@ -21,7 +21,6 @@ composer update
 php vendor/bin/phinx migrate
 
 ``` 
-
-
-###3 演示地址 
-http://test0429.xuxing.tech
+PS: 演示地址  http://test0429.xuxing.tech
+    根据以往经验，id 搜索支持   312-567  进行范围搜索.    
+   受限与演示地址网速，导出所有页数据时建议加上搜索条件。 （例如： 312-567  等 ）
