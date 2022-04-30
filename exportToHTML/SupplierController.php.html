@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>SupplierController.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); font-weight: bold; }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(169,183,198); }
+.s3 { color: rgb(204,120,50); }
+.s4 { color: rgb(104,151,187); }
+.s5 { color: rgb(128,128,128); }
+.s6 { color: rgb(152,118,170); }
+.s7 { color: rgb(106,135,89); }
+.ls0 { height: 1px; border-width: 0; color: rgb(77,77,77); background-color:rgb(77,77,77)}
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+SupplierController.php</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">&lt;?php</span><span class="s1"> 
+ <hr class="ls0"></span><span class="s0">namespace </span><span class="s2">app</span><span class="s1">\</span><span class="s2">controllers</span><span class="s3">;</span><span class="s1"> 
+ 
+ 
+</span><span class="s0">use </span><span class="s2">app</span><span class="s1">\</span><span class="s2">models</span><span class="s1">\</span><span class="s2">Supplier</span><span class="s3">;</span><span class="s1"> 
+</span><span class="s0">use </span><span class="s2">app</span><span class="s1">\</span><span class="s2">models</span><span class="s1">\</span><span class="s2">SupplierSearch</span><span class="s3">;</span><span class="s1"> 
+</span><span class="s0">use </span><span class="s2">yii</span><span class="s1">\</span><span class="s2">web</span><span class="s1">\</span><span class="s2">Controller</span><span class="s3">;</span><span class="s1"> 
+</span><span class="s0">use </span><span class="s2">Yii</span><span class="s3">;</span><span class="s1"> 
+ <hr class="ls0"></span><span class="s0">class </span><span class="s2">SupplierController </span><span class="s0">extends </span><span class="s2">Controller</span><span class="s1"> 
+{ 
+    </span><span class="s0">const </span><span class="s2">PAGESIZE </span><span class="s1">= </span><span class="s4">12</span><span class="s3">;</span><span class="s1"> 
+ 
+    </span><span class="s0">public function </span><span class="s2">actionIndex</span><span class="s1">() 
+    { 
+      </span><span class="s5">//  $query = Supplier::find()-&gt;orderBy('id desc')-&gt;asArray();</span><span class="s1"> 
+ 
+        </span><span class="s6">$searchModel </span><span class="s1">= </span><span class="s0">new </span><span class="s2">Supplier</span><span class="s1">()</span><span class="s3">;</span><span class="s1"> 
+        </span><span class="s6">$dataProvider </span><span class="s1">= </span><span class="s6">$searchModel</span><span class="s1">-&gt;</span><span class="s2">search</span><span class="s1">(</span><span class="s2">Yii</span><span class="s1">::</span><span class="s6">$app</span><span class="s1">-&gt;</span><span class="s2">request</span><span class="s1">-&gt;</span><span class="s2">queryParams</span><span class="s1">)</span><span class="s3">;</span><span class="s1"> 
+ 
+        </span><span class="s0">return </span><span class="s6">$this</span><span class="s1">-&gt;</span><span class="s2">render</span><span class="s1">(</span><span class="s7">'supplier_list'</span><span class="s3">, </span><span class="s1">[ 
+            </span><span class="s7">'searchModel' </span><span class="s1">=&gt; </span><span class="s6">$searchModel</span><span class="s3">,</span><span class="s1"> 
+            </span><span class="s7">'dataProvider' </span><span class="s1">=&gt; </span><span class="s6">$dataProvider</span><span class="s3">,</span><span class="s1"> 
+        ])</span><span class="s3">;</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">public function </span><span class="s2">actionExport</span><span class="s1">() 
+    { 
+        </span><span class="s2">print_r</span><span class="s1">(</span><span class="s6">$_REQUEST</span><span class="s1">)</span><span class="s3">;</span><span class="s1"> 
+        </span><span class="s0">exit</span><span class="s1">()</span><span class="s3">;</span><span class="s1"> 
+    }</span><span class="s2">po</span><span class="s1">[</span><span class="s2">p</span><span class="s7">'-=]]]]]]]];]]]]]]]];];];];];];];];];];];];];];];];];];];];];];];];];];];];];];];]]]]]]]]]]]]]]]]]'</span><span class="s1">] 
+} 
+</span></pre>
+</body>
+</html>
