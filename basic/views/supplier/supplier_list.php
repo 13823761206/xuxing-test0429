@@ -2,13 +2,14 @@
 use app\helpers\Enum;
 use \yii\grid\GridView;
 
-$footer = "<span id = 'p_onepage'><b>All <span id='ck_num'>0</span></b> conversations on this page have been selected. <a style='color: blue' class='j_toggle' target  = 'p_allpage' >Select all conversations that match this search</a></span>";
-$footer .= "<span id = 'p_allpage' class='hide'>All conversations in this search have been selected. <a style='color: blue' class='j_toggle' target  = 'p_onepage' >clear selection</a></span> <input type='button' class='j_export' value='export'>";
+$footer = "<span id = 'p_onepage'><b>All <span id='ck_num'>0</span></b> conversations on this page have been selected. <a style='color: blue' class='j_toggle' j_target  = '#p_allpage' j_allpage = 1 >Select all conversations that match this search</a></span>";
+$footer .= "<span id = 'p_allpage' class='hide'>All conversations in this search have been selected. <a style='color: blue' class='j_toggle' j_target  = '#p_onepage' j_allpage=0 >clear selection</a></span> <input type='button' class='j_export' value='export'>";
 
 echo "<input type='hidden' id = 'j_allpage' value='0'>";
 
 
 echo GridView::widget([
+        'id' => 'supplierGrid',
                                     'dataProvider' => $dataProvider,
                                     'filterModel' => $searchModel,
                                     'layout'=> '{items}<div class="text-right tooltip-demo">{pager}</div>',
@@ -23,15 +24,10 @@ echo GridView::widget([
                                     'showFooter' => true,
                                     'columns' => [
                                         [
-                                            'attribute' => '',
-                                            'format' => ['raw'],
-                                            'label' => "全/反选",
-                                            'headerOptions' => ['width' => '50','style'=>'cursor:pointer'],
-                                            'contentOptions' => ['align'=>'center'],
-                                            'header'=>"<b title='全选' id='all-check'>全</b>/<b title='反选' id='reverse-check'>反</b>",
-                                            'value' => function ($model) {
-                                                return "<input type='checkbox' class='i-checks' name='id[]' value={$model->id}>";
-                                            },
+                                          'class' => 'yii\grid\CheckboxColumn',
+                                                'checkboxOptions' => function ($model, $key, $index, $column) {
+                                                    return ['value' => $key];
+                                                },
                                             'footer' => $footer,
                                             'footerOptions' => ['colspan' => 5, 'id' => 'footer' , 'class' => 'hide' ]
                                         ],
@@ -67,40 +63,113 @@ echo GridView::widget([
 ?>
 <script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js"></script>
 <script>
-    //检测是否全选 ，如果全选，则将页脚进行展示.
+
+
+    //页脚toogle
+    $(document).on('click', '.j_export', function(){
+        $("#j_allpage").val() == "1" ? export_all_page():export_one_page();
+    });
+
+    /**
+     * 导出全部符合查询条件的数据
+     */
+    function export_all_page()
+    {
+        var href = location.href.replace("supplier/index", "supplier/export-all");
+        location.href = href;
+
+    }
+
+    /**
+     * 导出全部符合查询条件的数据
+     */
+    function export_one_page()
+    {
+       var ids =  jQuery('#supplierGrid').yiiGridView("getSelectedRows");
+        location.href = '/supplier/export-by-ids?id='+ids
+    }
+
+    //页脚toogle
+    $(document).on('click', '.j_toggle', function(){
+        $("#p_onepage").addClass('hide');
+        $("#p_allpage").addClass('hide');
+
+        var target_id =  $(this).attr("j_target");
+        $(target_id).removeClass('hide');
+
+        $("#j_allpage").val($(this).attr('j_allpage'));
+    });
+
+
+
+
+    //检测是否全选 ，如果全选，则将页脚进行展示. 不是则隐藏.
     function checlAll()
     {
-        var bool = true;
-        var ck_num = 0;
-        $(".i-checks").each(function(){
-            if(!$(this).prop("checked")) {
-                bool = false;
-            }
-            ck_num++;
-        })
-        if(bool) {
-            $("#ck_num").html(ck_num)
-            $('#footer').removeClass('hide');
+        if(isCheckAll()) {
+            showExportFoot();
         } else{
-            $('#footer').addClass('hide');
+            resetFoot();
         }
     }
 
-    $(document).on('click','#all-check',function(){
-        $(".i-checks").prop("checked", true);
-        checlAll();
-    });
-
-    $(document).on('click','#reverse-check',function(){
-        $(".i-checks").each(function(){
-            $(this).prop("checked", !$(this).prop("checked"));
+    /**
+     * 判断是否全选
+     * @returns {boolean}
+     */
+    function isCheckAll()
+    {
+        var bool = true;
+        $( "input[name='selection[]']").each(function(){
+            if(!$(this).prop("checked")) {
+                bool = false;
+            }
         })
+        return bool;
+    }
 
+    /**
+     * 展示页脚
+     */
+    function showExportFoot() {
+        var ck_num =   $( "input[name='selection[]']:checked").length
+        $("#ck_num").html(ck_num)
+        $('#footer').removeClass('hide');
+    }
+
+
+    /**
+     * 非全选状态，将页脚隐藏.导出模式复位.
+     */
+    function resetFoot()
+    {
+        //全选复位
+        $('#footer').addClass('hide');
+        $("#p_onepage").removeClass('hide');
+        $("#p_allpage").addClass('hide');
+        $("#j_allpage").val(0);
+    }
+
+
+    //勾全选trigger  全选按钮
+    $(document).on('change', 'input[name=selection_all]', function(){
         checlAll();
     });
 
-    $(document).on('change','.i-checks',function(){
+    //勾全选trigger  单行复选框
+    $(document).on('change', "input[name='selection[]']", function(){
         checlAll();
+    });
+
+    //页脚toogle
+    $(document).on('click', '.j_toggle', function(){
+      $("#p_onepage").addClass('hide');
+      $("#p_allpage").addClass('hide');
+
+      var target_id =  $(this).attr("j_target");
+      $(target_id).removeClass('hide');
+
+      $("#j_allpage").val($(this).attr('j_allpage'));
     });
 
 </script>

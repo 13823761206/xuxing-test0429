@@ -11,7 +11,7 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
-    'defaultRoute' => 'supplier',
+    'defaultRoute' => 'site',
 
     'components' => [
         'request' => [

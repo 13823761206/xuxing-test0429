@@ -2,6 +2,7 @@
 namespace app\models;
 
 use yii\data\ActiveDataProvider;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -26,7 +27,7 @@ class Supplier extends ActiveRecord
     }
 
 
-    public function search($params)
+    public function getSearchDataProvider($params)
     {
         $query = self::find();
         $dataProvider = new ActiveDataProvider([ 'query' => $query,
@@ -37,13 +38,32 @@ class Supplier extends ActiveRecord
             return $dataProvider;
         }
 
+        $query = $this->getQueryByParams($query, $params);
+        return $dataProvider;
+    }
+
+
+    public function getSearchRecord($params)
+    {
+        /**@var $query ActiveQuery*/
+        $query = self::find();
+        $query = $this->getQueryByParams($query, $params);
+        return $query->all();
+    }
+
+
+
+    private function getQueryByParams($query, $params)
+    {
+        $this->load($params);
         $query = $this->getQueryByIdCondition($query, $this->id);
         $query->andFilterWhere(['=', "t_status", $this->t_status]);
         $query->andFilterWhere(['like', "name", $this->name]);
         $query->andFilterWhere(['like', "code", $this->code]);
-
-        return $dataProvider;
+        return $query;
     }
+
+
 
 
     /**

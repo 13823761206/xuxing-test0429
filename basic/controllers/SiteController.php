@@ -62,7 +62,8 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
-        return $this->render('index');
+        echo "<script>location.href='supplier/index';</script>";
+      //  return $this->render('index');
     }
 
     /**

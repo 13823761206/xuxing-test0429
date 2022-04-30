@@ -19,7 +19,8 @@
         "yiisoft/yii2-bootstrap4": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "vlucas/phpdotenv": "^5.4",
-        "robmorgan/phinx": "^0.12.10"
+        "robmorgan/phinx": "^0.12.10",
+        "phpoffice/phpspreadsheet": "^1.23"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
